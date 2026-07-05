@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Ôn tập Từ vựng Tiếng Anh Chuyên ngành (9 Units)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Flashcard CSS 3D Transforms */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-200">
+
+    <div id="root" class="min-h-screen flex flex-col"></div>
+
+    <!-- React and Babel via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" crossorigin></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.22.10/babel.min.js"></script>
+
+    <script type="text/babel">
+        // Toàn bộ cơ sở dữ liệu từ vựng cho 9 units từ file đính kèm
+        const VOCABULARY_DATA = [
+            {
+                id: 0,
+                title: "Business Fundamentals",
+                vietnameseTitle: "Cơ sở kinh doanh",
+                words: [
+                    { en: "extract", vi: "khai thác, chiết xuất", type: "v" },
+                    { en: "mining", vi: "ngành khai mỏ, khai khoáng", type: "n" },
+                    { en: "monopoly", vi: "độc quyền", type: "n" },
+                    { en: "profit", vi: "lợi nhuận", type: "n" },
+                    { en: "raw materials", vi: "nguyên liệu thô", type: "n" },
+                    { en: "supplier", vi: "nhà cung cấp", type: "n" },
+                    { en: "USP (Unique Selling Proposition)", vi: "điểm bán hàng độc nhất", type: "n" },
+                    { en: "value", vi: "giá trị", type: "n" },
+                    { en: "entrepreneur", vi: "nhà doanh nghiệp, nhà khởi nghiệp", type: "n" },
+                    { en: "hire", vi: "thuê, tuyển dụng", type: "v" },
+                    { en: "human resources", vi: "nhân sự, nguồn nhân lực", type: "n" },
+                    { en: "joint venture", vi: "công ty liên doanh", type: "n" },
+                    { en: "logistics", vi: "tiếp vận, hậu cần", type: "n" },
+                    { en: "share", vi: "cổ phần, cổ phiếu, chia sẻ", type: "n/v" },
+                    { en: "shareholder", vi: "cổ đông", type: "n" },
+                    { en: "strategy", vi: "chiến lược", type: "n" },
+                    { en: "supply chain", vi: "chuỗi cung ứng", type: "n" },
+                    { en: "break even", vi: "hòa vốn", type: "v" },
+                    { en: "cost of goods sold (COGS)", vi: "giá vốn hàng bán", type: "n" },
+                    { en: "day job", vi: "công việc chính hàng ngày (để kiếm sống)", type: "n" },
+                    { en: "fixed cost", vi: "chi phí cố định", type: "n" },
+                    { en: "improve", vi: "cải thiện, nâng cao", type: "v" },
+                    { en: "margin", vi: "biên lợi nhuận, số dư", type: "n" },
+                    { en: "overheads", vi: "chi phí chung, chi phí quản lý", type: "n" },
+                    { en: "revenue", vi: "doanh thu", type: "n" },
+                    { en: "stock", vi: "hàng tồn kho, cổ phiếu", type: "n" },
+                    { en: "variable cost", vi: "chi chi biến đổi (biến phí)", type: "n" },
+                    { en: "apply", vi: "nộp đơn, áp dụng", type: "v" },
+                    { en: "cosmetics", vi: "mỹ phẩm", type: "n" },
+                    { en: "counsellor", vi: "người cố vấn, người tham vấn", type: "n" },
+                    { en: "gain", vi: "giành được, đạt được", type: "v" },
+                    { en: "intern", vi: "thực tập sinh", type: "n" },
+                    { en: "internship", vi: "kỳ thực tập", type: "n" },
+                    { en: "survey", vi: "bản khảo sát, điều tra", type: "n/v" },
+                    { en: "trainee", vi: "người được đào tạo, thực tập sinh", type: "n" }
+                ],
+                sentences: [
+                    { q: "We need to ______ raw materials from deep underground.", a: "extract", options: ["extract", "apply", "hire", "improve"] },
+                    { q: "Revenue minus total costs equals total ______.", a: "profit", options: ["profit", "supplier", "margin", "overheads"] },
+                    { q: "A ______ is a person who starts a business and takes on financial risks.", a: "entrepreneur", options: ["entrepreneur", "shareholder", "trainee", "counsellor"] },
+                    { q: "Rent is a classic example of a ______ because it does not change with production volume.", a: "fixed cost", options: ["fixed cost", "variable cost", "margin", "revenue"] },
+                    { q: "Our company decided to establish a ______ with a local firm to enter the new market.", a: "joint venture", options: ["joint venture", "supply chain", "monopoly", "logistics"] },
+                    { q: "The logistics manager is responsible for optimizing the entire ______.", a: "supply chain", options: ["supply chain", "fixed cost", "overheads", "day job"] },
+                    { q: "She quit her ______ to focus entirely on her new business idea.", a: "day job", options: ["day job", "internship", "strategy", "monopoly"] },
+                    { q: "The factory has a large amount of ______ in the warehouse ready to be shipped.", a: "stock", options: ["stock", "revenue", "counsellor", "cosmetics"] },
+                    { q: "He applied for a summer ______ at a leading marketing agency.", a: "internship", options: ["internship", "overheads", "shareholder", "supplier"] },
+                    { q: "What is your product's ______ that makes it stand out from competitors?", a: "USP", options: ["USP", "COGS", "fixed cost", "margin"] }
+                ]
+            },
+            {
+                id: 1,
+                title: "Unit 1: Gaining experience",
+                vietnameseTitle: "Tích lũy kinh nghiệm",
+                words: [
+                    { en: "acquire", vi: "đạt được, thu mua, giành được", type: "v" },
+                    { en: "crew", vi: "đội ngũ, toàn bộ thủy thủ/phi hành đoàn", type: "n" },
+                    { en: "fierce", vi: "khốc liệt, dữ dội", type: "adj" },
+                    { en: "impress", vi: "gây ấn tượng", type: "v" },
+                    { en: "reference", vi: "thư giới thiệu, sự tham chiếu", type: "n" },
+                    { en: "skill", vi: "kỹ năng", type: "n" },
+                    { en: "team spirit", vi: "tinh thần đồng đội", type: "n" },
+                    { en: "analogue", vi: "tương tự (kỹ thuật cũ, không phải kỹ thuật số)", type: "adj" },
+                    { en: "badge", vi: "huy hiệu, phù hiệu", type: "n" },
+                    { en: "digital", vi: "kỹ thuật số", type: "adj" },
+                    { en: "register", vi: "đăng ký", type: "v/n" },
+                    { en: "abroad", vi: "ở nước ngoài", type: "adv" },
+                    { en: "communicator", vi: "người truyền thông, người giao tiếp", type: "n" },
+                    { en: "example", vi: "ví dụ, tấm gương", type: "n" },
+                    { en: "foreign", vi: "thuộc nước ngoài, xa lạ", type: "adj" },
+                    { en: "problem-solver", vi: "người giải quyết vấn đề", type: "n" },
+                    { en: "quarter", vi: "một phần tư, quý (3 tháng)", type: "n" },
+                    { en: "team player", vi: "người làm việc đồng đội tốt", type: "n" },
+                    { en: "workaholic", vi: "người nghiện công việc", type: "n" },
+                    { en: "anyway", vi: "dù sao đi nữa", type: "adv" },
+                    { en: "favour", vi: "sự giúp đỡ, đặc ân", type: "n" },
+                    { en: "shuttle", vi: "xe đưa đón tuyến ngắn", type: "n" },
+                    { en: "tip", vi: "tiền boa, lời khuyên hữu ích", type: "n/v" },
+                    { en: "well-paid", vi: "được trả lương cao", type: "adj" },
+                    { en: "instead", vi: "thay vì, thay thế vào đó", type: "adv" },
+                    { en: "pick up", vi: "nhặt lên, đón xe, học lỏm kiến thức", type: "v" },
+                    { en: "training", vi: "sự đào tạo, huấn luyện", type: "n" },
+                    { en: "accommodation", vi: "chỗ ở, nơi lưu trú", type: "n" },
+                    { en: "allowance", vi: "tiền phụ cấp, trợ cấp", type: "n" },
+                    { en: "arrange", vi: "sắp xếp, thu xếp", type: "v" },
+                    { en: "intercultural", vi: "liên văn hóa", type: "adj" },
+                    { en: "overtime", vi: "giờ làm thêm, ngoài giờ", type: "n/adv" },
+                    { en: "TOEIC", vi: "Kỳ thi tiếng Anh giao tiếp quốc tế", type: "n" },
+                    { en: "visa", vi: "thị thực, visa thông hành", type: "n" },
+                    { en: "warehouse", vi: "nhà kho, kho hàng", type: "n" }
+                ],
+                sentences: [
+                    { q: "We need to ______ new skills to stay competitive in the market.", a: "acquire", options: ["acquire", "impress", "register", "arrange"] },
+                    { q: "The competition between the two tech giants is ______.", a: "fierce", options: ["fierce", "well-paid", "intercultural", "digital"] },
+                    { q: "A good ______ works effectively with others to achieve common goals.", a: "team player", options: ["team player", "workaholic", "problem-solver", "communicator"] },
+                    { q: "She loves her job so much that her colleagues call her a ______.", a: "workaholic", options: ["workaholic", "crew", "reference", "trainee"] },
+                    { q: "My company offered to pay for my hotel ______ during the business trip.", a: "accommodation", options: ["accommodation", "allowance", "visa", "warehouse"] },
+                    { q: "We get a monthly travel ______ to cover petrol expenses.", a: "allowance", options: ["allowance", "reference", "badge", "shuttle"] },
+                    { q: "Working ______ can be exhausting but it pays 1.5 times the normal rate.", a: "overtime", options: ["overtime", "abroad", "instead", "anyway"] },
+                    { q: "The goods are stored in a large ______ outside the city center.", a: "warehouse", options: ["warehouse", "shuttle", "quarter", "accommodation"] },
+                    { q: "Our marketing campaign is shifting entirely from traditional to ______ media.", a: "digital", options: ["digital", "analogue", "foreign", "intercultural"] },
+                    { q: "Can you do me a ______ and print out this document?", a: "favour", options: ["favour", "tip", "reference", "skill"] }
+                ]
+            },
+            {
+                id: 2,
+                title: "Unit 2: Customer satisfaction",
+                vietnameseTitle: "Sự hài lòng của khách hàng",
+                words: [
+                    { en: "advocate", vi: "người ủng hộ nhiệt tình, người biện hộ", type: "n/v" },
+                    { en: "ally", vi: "đồng minh, đối tác liên kết", type: "n" },
+                    { en: "consumer", vi: "người tiêu dùng", type: "n" },
+                    { en: "lead", vi: "khách hàng tiềm năng, cơ hội bán hàng", type: "n" },
+                    { en: "loyalty", vi: "lòng trung thành", type: "n" },
+                    { en: "prospect", vi: "khách hàng triển vọng, viễn cảnh", type: "n" },
+                    { en: "referral", vi: "sự giới thiệu (khách hàng)", type: "n" },
+                    { en: "upgrade", vi: "nâng cấp", type: "v/n" },
+                    { en: "apologize", vi: "xin lỗi", type: "v" },
+                    { en: "complain", vi: "phàn nàn, khiếu nại", type: "v" },
+                    { en: "faulty", vi: "bị hỏng, có lỗi, khuyết tật", type: "adj" },
+                    { en: "greet", vi: "chào đón, chào hỏi", type: "v" },
+                    { en: "refund", vi: "hoàn tiền, tiền trả lại", type: "v/n" },
+                    { en: "schedule", vi: "lịch trình, lên lịch", type: "n/v" },
+                    { en: "voicemail", vi: "thư thoại", type: "n" },
+                    { en: "decrease", vi: "giảm bớt, suy giảm", type: "v/n" },
+                    { en: "drop", vi: "rơi, sụt giảm nhanh", type: "v/n" },
+                    { en: "fall", vi: "ngã, sụt giảm", type: "v/n" },
+                    { en: "improve", vi: "cải tiến, cải thiện", type: "v" },
+                    { en: "increase", vi: "tăng lên, sự gia tăng", type: "v/n" },
+                    { en: "rise", vi: "gia tăng, mọc lên", type: "v/n" },
+                    { en: "free-to-air", vi: "truyền hình phát sóng miễn phí", type: "adj" },
+                    { en: "hang on", vi: "giữ máy, chờ một chút", type: "v" },
+                    { en: "hold (the line)", vi: "giữ máy điện thoại không cúp", type: "v" },
+                    { en: "premium", vi: "cao cấp, phí bảo hiểm, gói dịch vụ chất lượng cao", type: "adj/n" },
+                    { en: "subscription", vi: "sự đăng ký thành viên định kỳ, thuê bao", type: "n" },
+                    { en: "apology", vi: "lời xin lỗi", type: "n" },
+                    { en: "database", vi: "cơ sở dữ liệu", type: "n" },
+                    { en: "discount", vi: "khấu trừ, chiết khấu, giảm giá", type: "n/v" },
+                    { en: "inconvenience", vi: "sự bất tiện", type: "n" },
+                    { en: "lift", vi: "thang máy, nâng lên", type: "n/v" },
+                    { en: "make up for", vi: "bù đắp cho, đền bù cho", type: "v" },
+                    { en: "workshop", vi: "hội thảo thực hành, xưởng làm việc", type: "n" },
+                    { en: "awesome", vi: "tuyệt vời, đáng kinh ngạc", type: "adj" },
+                    { en: "behavior/behaviour", vi: "hành vi, cách cư xử", type: "n" },
+                    { en: "deadline", vi: "hạn chót, thời hạn cuối cùng", type: "n" },
+                    { en: "fire", vi: "sa thải, đuổi việc, đốt cháy", type: "v" },
+                    { en: "gross revenues", vi: "tổng doanh thu chưa trừ chi phí", type: "n" },
+                    { en: "invoice", vi: "hóa đơn yêu cầu thanh toán", type: "n" },
+                    { en: "roadie", vi: "nhân viên kỹ thuật đi tour lưu diễn", type: "n" },
+                    { en: "venue", vi: "địa điểm tổ chức sự kiện", type: "n" }
+                ],
+                sentences: [
+                    { q: "The customer decided to ______ because the product was damaged upon delivery.", a: "complain", options: ["complain", "apologize", "greet", "upgrade"] },
+                    { q: "We issued a full ______ to the client for the faulty machine.", a: "refund", options: ["refund", "invoice", "database", "subscription"] },
+                    { q: "If you want to view premium content, you must buy a monthly ______.", a: "subscription", options: ["subscription", "referral", "lead", "roadie"] },
+                    { q: "Please ______ while I transfer you to the technical department.", a: "hold (the line)", options: ["hold (the line)", "upgrade", "decrease", "fire"] },
+                    { q: "We apologize for any ______ this delay may have caused you.", a: "inconvenience", options: ["inconvenience", "apology", "database", "discount"] },
+                    { q: "We offer a 10% ______ to customers who pay in cash.", a: "discount", options: ["discount", "premium", "refund", "venue"] },
+                    { q: "The concert ______ was changed to a larger stadium to accommodate more fans.", a: "venue", options: ["venue", "workshop", "lift", "ally"] },
+                    { q: "The company had to ______ the employee for stealing confidential data.", a: "fire", options: ["fire", "greet", "apologize", "improve"] },
+                    { q: "Our sales team managed to convert a cold ______ into a loyal client.", a: "prospect", options: ["prospect", "voicemail", "inconvenience", "roadie"] },
+                    { q: "Customer ______ is vital for the long-term success of any retail business.", a: "loyalty", options: ["loyalty", "behavior/behaviour", "deadline", "lead"] }
+                ]
+            },
+            {
+                id: 3,
+                title: "Unit 3: Product and process",
+                vietnameseTitle: "Sản phẩm và quy trình",
+                words: [
+                    { en: "cash", vi: "tiền mặt", type: "n" },
+                    { en: "cash flow", vi: "dòng tiền", type: "n" },
+                    { en: "credit", vi: "tín dụng, sự tin cậy", type: "n" },
+                    { en: "labour", vi: "nhân công, lao động", type: "n" },
+                    { en: "pellet", vi: "viên nhỏ, hạt nhỏ", type: "n" },
+                    { en: "process", vi: "quy trình, xử lý", type: "n/v" },
+                    { en: "purchasing", vi: "việc mua sắm hàng hóa", type: "n" },
+                    { en: "put all your eggs in one basket", vi: "bỏ tất cả trứng vào một giỏ (mạo hiểm dồn nguồn lực vào một chỗ)", type: "idiom" },
+                    { en: "stock", vi: "kho dự trữ, hàng tồn kho", type: "n" },
+                    { en: "storage", vi: "kho chứa, sự lưu trữ", type: "n" },
+                    { en: "ground", vi: "mặt đất, đất đai", type: "n" },
+                    { en: "handle", vi: "bốc xếp, xử lý, điều khiển", type: "v" },
+                    { en: "iron", vi: "sắt, bàn là", type: "n" },
+                    { en: "oil", vi: "dầu mỏ, dầu ăn", type: "n" },
+                    { en: "ore", vi: "quặng", type: "n" },
+                    { en: "site", vi: "vị trí, địa điểm, công trường", type: "n" },
+                    { en: "slave", vi: "nô lệ", type: "n" },
+                    { en: "steel", vi: "thép", type: "n" },
+                    { en: "bake", vi: "nướng bánh", type: "v" },
+                    { en: "container", vi: "thùng chứa, công-ten-nơ", type: "n" },
+                    { en: "forklift truck", vi: "xe nâng hàng", type: "n" },
+                    { en: "mould", vi: "khuôn đúc, nấm mốc", type: "n/v" },
+                    { en: "pour", vi: "rót, đổ vào", type: "v" },
+                    { en: "rack", vi: "giá đỡ, kệ chứa hàng", type: "n" },
+                    { en: "roundabout", vi: "bùng binh, vòng xuyến", type: "n" },
+                    { en: "weight", vi: "trọng lượng, cân nặng", type: "n" },
+                    { en: "crash", vi: "va chạm, sự cố sập nguồn", type: "n/v" },
+                    { en: "pack", vi: "đóng gói", type: "v" },
+                    { en: "pallet", vi: "tấm pallet (để xếp hàng)", type: "n" },
+                    { en: "pick", vi: "lấy hàng, nhặt hàng", type: "v" },
+                    { en: "picking list", vi: "danh sách soạn hàng, danh sách lấy hàng", type: "n" },
+                    { en: "strike", vi: "đình công", type: "n/v" },
+                    { en: "tag", vi: "nhãn mác, gắn thẻ", type: "n/v" },
+                    { en: "accessory", vi: "phụ tùng, phụ kiện", type: "n" },
+                    { en: "damaged", vi: "bị hư hại, bị hỏng", type: "adj" },
+                    { en: "delivery note", vi: "phiếu giao hàng", type: "n" },
+                    { en: "frame", vi: "khung, sườn", type: "n" },
+                    { en: "industrial estate", vi: "khu công nghiệp", type: "n" },
+                    { en: "pickup point", vi: "điểm nhận hàng", type: "n" },
+                    { en: "policy", vi: "chính sách", type: "n" },
+                    { en: "RMA (Return Merchandise Authorization)", vi: "quy trình chấp thuận trả lại hàng lỗi", type: "n" },
+                    { en: "loading bay", vi: "khu vực bốc dỡ hàng", type: "n" },
+                    { en: "open-plan", vi: "không gian mở (văn phòng)", type: "adj" },
+                    { en: "traffic", vi: "lưu lượng giao thông, đi lại", type: "n" },
+                    { en: "workflow", vi: "quy trình làm việc, luồng công việc", type: "n" }
+                ],
+                sentences: [
+                    { q: "Our warehouse uses a ______ to lift and move heavy pallets.", a: "forklift truck", options: ["forklift truck", "container", "mould", "rack"] },
+                    { q: "Do not ______ by investing all your money in a single company.", a: "put all your eggs in one basket", options: ["put all your eggs in one basket", "handle", "pack", "strike"] },
+                    { q: "Maintaining a healthy ______ is crucial to pay our suppliers on time.", a: "cash flow", options: ["cash flow", "labour", "ore", "weight"] },
+                    { q: "The liquid plastic is poured into a ______ to shape the product.", a: "mould", options: ["mould", "pallet", "tag", "frame"] },
+                    { q: "Please check the ______ to see which items you need to retrieve from the shelves.", a: "picking list", options: ["picking list", "delivery note", "RMA", "policy"] },
+                    { q: "The delivery driver handed me the ______ for signature.", a: "delivery note", options: ["delivery note", "cash", "industrial estate", "roundabout"] },
+                    { q: "We need more ______ space because our inventory is expanding.", a: "storage", options: ["storage", "labour", "ore", "roundabout"] },
+                    { q: "The factory workers threatened to go on ______ if wages were not raised.", a: "strike", options: ["strike", "process", "purchasing", "workflow"] },
+                    { q: "This open-box item is discounted because the box was ______.", a: "damaged", options: ["damaged", "open-plan", "steel", "pellet"] },
+                    { q: "The trucks are waiting to unload their goods at the ______.", a: "loading bay", options: ["loading bay", "industrial estate", "pickup point", "site"] }
+                ]
+            },
+            {
+                id: 4,
+                title: "Unit 4: Job interviews and career",
+                vietnameseTitle: "Phỏng vấn xin việc và sự nghiệp",
+                words: [
+                    { en: "boring", vi: "nhàm chán", type: "adj" },
+                    { en: "creative", vi: "sáng tạo", type: "adj" },
+                    { en: "entry-level", vi: "cấp bậc mới vào nghề, cơ bản", type: "adj/n" },
+                    { en: "exhausted", vi: "kiệt sức, mệt lử", type: "adj" },
+                    { en: "job fair", vi: "hội chợ việc làm", type: "n" },
+                    { en: "passionate", vi: "đam mê, nhiệt huyết", type: "adj" },
+                    { en: "short list/shortlist", vi: "danh sách rút gọn ứng viên", type: "n/v" },
+                    { en: "coach", vi: "huấn luyện viên, kèm cặp", type: "n/v" },
+                    { en: "demanding", vi: "đòi hỏi khắt khe, đầy thử thách", type: "adj" },
+                    { en: "dress", vi: "trang phục, ăn mặc", type: "n/v" },
+                    { en: "require", vi: "yêu cầu, đòi hỏi", type: "v" },
+                    { en: "smart", vi: "lịch lãm, thông minh", type: "adj" },
+                    { en: "strength", vi: "điểm mạnh, sức mạnh", type: "n" },
+                    { en: "weakness", vi: "điểm yếu", type: "n" },
+                    { en: "fencing", vi: "môn đấu kiếm", type: "n" },
+                    { en: "IPO", vi: "phát hành cổ phiếu lần đầu ra công chúng", type: "n" },
+                    { en: "philanthropist", vi: "nhà hảo tâm, nhà từ thiện", type: "n" },
+                    { en: "raise", vi: "tăng lương, nâng cao, gây quỹ", type: "v/n" },
+                    { en: "devil's advocate", vi: "người đóng vai phản biện (để tìm ra kẽ hở)", type: "n" },
+                    { en: "easygoing", vi: "dễ tính, dễ chịu", type: "adj" },
+                    { en: "NGO", vi: "tổ chức phi chính phủ", type: "n" },
+                    { en: "partially", vi: "một phần, không hoàn toàn", type: "adv" },
+                    { en: "bartender", vi: "nhân viên pha chế quầy bar", type: "n" },
+                    { en: "marital status", vi: "tình trạng hôn nhân", type: "n" },
+                    { en: "pet", vi: "thú cưng", type: "n" },
+                    { en: "pickup truck", vi: "xe bán tải", type: "n" },
+                    { en: "regatta", vi: "cuộc đua thuyền", type: "n" },
+                    { en: "sailing", vi: "môn đi thuyền buồm", type: "n" },
+                    { en: "stand", vi: "gian hàng, vị trí đứng", type: "n" },
+                    { en: "variable", vi: "biến số, có thể thay đổi", type: "n/adj" },
+                    { en: "health care", vi: "chăm sóc sức khỏe", type: "n" },
+                    { en: "in the field", vi: "trong lĩnh vực thực tế, ngoài thực địa", type: "idiom" },
+                    { en: "networking", vi: "thiết lập mạng lưới quan hệ", type: "n" },
+                    { en: "orthopaedic", vi: "thuộc khoa chỉnh hình", type: "adj" },
+                    { en: "rewarding", vi: "bổ ích, đáng làm, mang lại sự thỏa mãn", type: "adj" }
+                ],
+                sentences: [
+                    { q: "Since I have no experience, I am looking for an ______ position.", a: "entry-level", options: ["entry-level", "demanding", "smart", "exhausted"] },
+                    { q: "We attended the ______ to recruit fresh graduates for our company.", a: "job fair", options: ["job fair", "IPO", "regatta", "stand"] },
+                    { q: "During interviews, you should talk about your greatest ______ and weaknesses.", a: "strength", options: ["strength", "coach", "fencing", "variable"] },
+                    { q: "After working a 14-hour shift, he was absolutely ______.", a: "exhausted", options: ["exhausted", "easygoing", "creative", "boring"] },
+                    { q: "He works for a non-profit ______ that helps poor children.", a: "NGO", options: ["NGO", "IPO", "philanthropist", "bartender"] },
+                    { q: "The HR department has created a ______ of five candidates for the second interview.", a: "shortlist", options: ["shortlist", "stand", "coach", "strength"] },
+                    { q: "Teaching can be a very ______ career when you see your students succeed.", a: "rewarding", options: ["rewarding", "demanding", "boring", "partially"] },
+                    { q: "You should ______ professionally for your job interview.", a: "dress", options: ["dress", "require", "coach", "raise"] },
+                    { q: "I like to play ______ to explore alternative views, even if I don't agree with them.", a: "devil's advocate", options: ["devil's advocate", "philanthropist", "bartender", "pet"] },
+                    { q: "Attending business events is great for ______.", a: "networking", options: ["networking", "fencing", "sailing", "health care"] }
+                ]
+            },
+            {
+                id: 5,
+                title: "Unit 5: Marketing and selling",
+                vietnameseTitle: "Tiếp thị và bán hàng",
+                words: [
+                    { en: "agenda", vi: "chương trình nghị sự, lịch trình làm việc", type: "n" },
+                    { en: "awareness", vi: "nhận thức, sự hiểu biết", type: "n" },
+                    { en: "benefit", vi: "lợi ích, phúc lợi", type: "n" },
+                    { en: "blame", vi: "kết tội, đổ lỗi", type: "v/n" },
+                    { en: "ceasefire", vi: "lệnh ngừng bắn", type: "n" },
+                    { en: "commission", vi: "tiền hoa hồng", type: "n" },
+                    { en: "feature", vi: "tính năng, đặc điểm", type: "n/v" },
+                    { en: "incompetent", vi: "thiếu năng lực, bất tài", type: "adj" },
+                    { en: "billboard", vi: "bảng quảng cáo ngoài trời lớn", type: "n" },
+                    { en: "competitive", vi: "mang tính cạnh tranh", type: "adj" },
+                    { en: "launch", vi: "tung ra, khai trương, ra mắt sản phẩm", type: "v/n" },
+                    { en: "monitor", vi: "giám sát, màn hình", type: "v/n" },
+                    { en: "trend", vi: "xu hướng, xu thế", type: "n" },
+                    { en: "value for money", vi: "đáng tiền, giá trị xứng đáng với số tiền", type: "idiom" },
+                    { en: "via", vi: "thông qua, qua đường", type: "prep" },
+                    { en: "accessory", vi: "phụ kiện, phụ tùng", type: "n" },
+                    { en: "carbon footprint", vi: "lượng phát thải khí nhà kính (dấu chân carbon)", type: "n" },
+                    { en: "energy", vi: "năng lượng", type: "n" },
+                    { en: "harmful", vi: "có hại", type: "adj" },
+                    { en: "hybrid", vi: "lai, hỗn hợp (vd: xe lai điện xăng)", type: "adj/n" },
+                    { en: "legroom", vi: "chỗ để chân (trên xe, máy bay)", type: "n" },
+                    { en: "luxurious", vi: "sang trọng, xa xỉ", type: "adj" },
+                    { en: "satnav", vi: "thiết bị định vị vệ tinh", type: "n" },
+                    { en: "acknowledge", vi: "xác nhận, công nhận", type: "v" },
+                    { en: "day care", vi: "nhà trẻ, dịch vụ chăm sóc ban ngày", type: "n" },
+                    { en: "childcare", vi: "việc chăm sóc trẻ em", type: "n" },
+                    { en: "morale", vi: "tinh thần, nhuệ khí tập thể", type: "n" },
+                    { en: "objection", vi: "sự phản đối, lời từ chối mua hàng", type: "n" },
+                    { en: "paperwork", vi: "thủ tục giấy tờ, sổ sách", type: "n" },
+                    { en: "compliant", vi: "tuân thủ đúng quy định", type: "adj" },
+                    { en: "feedback", vi: "ý kiến phản hồi", type: "n" },
+                    { en: "owing to", vi: "do bởi, nhờ có", type: "prep" },
+                    { en: "proud", vi: "tự hào, hãnh diện", type: "adj" },
+                    { en: "sitting", vi: "phiên họp, buổi ngồi", type: "n" },
+                    { en: "split", vi: "chia rẽ, chia ra", type: "v/n" },
+                    { en: "brand", vi: "thương hiệu", type: "n" },
+                    { en: "inventory", vi: "hàng tồn kho, bảng kiểm kê", type: "n" },
+                    { en: "segment", vi: "phân khúc thị trường/khách hàng", type: "n/v" }
+                ],
+                sentences: [
+                    { q: "Our main marketing goal this year is to increase brand ______.", a: "awareness", options: ["awareness", "legroom", "commission", "ceasefire"] },
+                    { q: "The sales representative earns a 5% ______ on every deal closed.", a: "commission", options: ["commission", "morale", "benefit", "objection"] },
+                    { q: "We plan to ______ our new smartphone model next month.", a: "launch", options: ["launch", "blame", "monitor", "split"] },
+                    { q: "This car has a high-tech ______ system to help you navigate.", a: "satnav", options: ["satnav", "billboard", "feedback", "day care"] },
+                    { q: "The company's new electric car helps drivers reduce their ______.", a: "carbon footprint", options: ["carbon footprint", "accessory", "paperwork", "inventory"] },
+                    { q: "Customers gave very positive ______ about our new software update.", a: "feedback", options: ["feedback", "objection", "sitting", "trend"] },
+                    { q: "This brand targets the high-income market ______.", a: "segment", options: ["segment", "agenda", "childcare", "ceasefire"] },
+                    { q: "We rented a massive ______ by the highway to display our ad.", a: "billboard", options: ["billboard", "satnav", "commission", "energy"] },
+                    { q: "He complained that the economy class seat had very little ______.", a: "legroom", options: ["legroom", "benefit", "morale", "inventory"] },
+                    { q: "Our products offer high quality at a low price, which is great ______.", a: "value for money", options: ["value for money", "harmful", "incompetent", "compliant"] }
+                ]
+            },
+            {
+                id: 6,
+                title: "Unit 6: Entrepreneurship",
+                vietnameseTitle: "Tinh thần khởi nghiệp",
+                words: [
+                    { en: "borrow", vi: "vay, mượn", type: "v" },
+                    { en: "failure", vi: "sự thất bại", type: "n" },
+                    { en: "frustrating", vi: "gây bực dọc, nản lòng", type: "adj" },
+                    { en: "funding", vi: "nguồn tài trợ, cấp vốn", type: "n" },
+                    { en: "interest", vi: "lãi suất, sự quan tâm", type: "n" },
+                    { en: "seller financing", vi: "hình thức người bán hỗ trợ tài chính cho người mua", type: "n" },
+                    { en: "talent", vi: "tài năng, nhân tài", type: "n" },
+                    { en: "worth", vi: "đáng giá, giá trị", type: "adj/n" },
+                    { en: "charity", vi: "tổ chức từ thiện, việc từ thiện", type: "n" },
+                    { en: "cooperative", vi: "hợp tác xã, hợp tác", type: "n/adj" },
+                    { en: "full-time", vi: "toàn thời gian", type: "adj/adv" },
+                    { en: "know-how", vi: "bí quyết kỹ thuật, chuyên môn", type: "n" },
+                    { en: "physiotherapist", vi: "nhà vật lý trị liệu", type: "n" },
+                    { en: "youth", vi: "thanh xuân, giới trẻ", type: "n" },
+                    { en: "elevator", vi: "thang máy, bài thuyết trình ngắn (pitch)", type: "n" },
+                    { en: "fee", vi: "lệ phí, phí dịch vụ", type: "n" },
+                    { en: "franchise fee", vi: "phí nhượng quyền thương hiệu", type: "n" },
+                    { en: "franchiser/franchisor", vi: "bên nhượng quyền", type: "n" },
+                    { en: "lawyer", vi: "luật sư", type: "n" },
+                    { en: "obligatory", vi: "bắt buộc", type: "adj" },
+                    { en: "royalty", vi: "tiền bản quyền, tiền nhượng quyền định kỳ", type: "n" },
+                    { en: "background music", vi: "nhạc nền", type: "n" },
+                    { en: "chair", vi: "chủ tọa cuộc họp, cái ghế", type: "n/v" },
+                    { en: "direct marketing", vi: "tiếp thị trực tiếp", type: "n" },
+                    { en: "flyer", vi: "tờ rơi quảng cáo", type: "n" },
+                    { en: "package", vi: "bưu kiện, gói sản phẩm dịch vụ", type: "n/v" },
+                    { en: "personal selling", vi: "bán hàng cá nhân", type: "n" },
+                    { en: "promotional mix", vi: "hỗn hợp tiếp thị/quảng bá", type: "n" },
+                    { en: "voucher", vi: "phiếu giảm giá, chứng từ", type: "n" },
+                    { en: "acquisition", vi: "sự thâu tóm, mua lại doanh nghiệp", type: "n" },
+                    { en: "AOB (Any Other Business)", vi: "các vấn đề khác ngoài nghị trình cuộc họp", type: "n" },
+                    { en: "apologies", vi: "lời xin lỗi vắng mặt", type: "n" },
+                    { en: "chain", vi: "chuỗi cửa hàng, chuỗi liên kết", type: "n" },
+                    { en: "forecast", vi: "dự báo", type: "n/v" },
+                    { en: "waste of time", vi: "lãng phí thời gian", type: "n" },
+                    { en: "component", vi: "linh kiện, thành phần", type: "n" },
+                    { en: "device", vi: "thiết bị, dụng cụ", type: "n" },
+                    { en: "gadget", vi: "thiết bị điện tử nhỏ tiện ích", type: "n" },
+                    { en: "high street", vi: "phố mua sắm chính", type: "n" },
+                    { en: "plug in", vi: "cắm điện vào", type: "v" },
+                    { en: "source", vi: "nguồn cung cấp, tìm nguồn hàng", type: "n/v" }
+                ],
+                sentences: [
+                    { q: "Startups often pitch to venture capitalists to secure ______.", a: "funding", options: ["funding", "royalty", "AOB", "apologies"] },
+                    { q: "We had to pay an upfront ______ to join the brand network.", a: "franchise fee", options: ["franchise fee", "interest", "voucher", "chain"] },
+                    { q: "The bank charged a high ______ rate on the business loan.", a: "interest", options: ["interest", "fee", "failure", "know-how"] },
+                    { q: "In the meeting, we will discuss the items on the agenda and then ______ under any other business.", a: "AOB", options: ["AOB", "acquisition", "forecast", "flyer"] },
+                    { q: "The tech company is famous for its advanced technical ______.", a: "know-how", options: ["know-how", "charity", "device", "voucher"] },
+                    { q: "We need to ______ raw materials from reliable suppliers.", a: "source", options: ["source", "borrow", "plug in", "chair"] },
+                    { q: "He handed out a promotional ______ to people walking on the street.", a: "flyer", options: ["flyer", "gadget", "franchise fee", "lawyer"] },
+                    { q: "Many retail stores on the ______ have closed due to online competition.", a: "high street", options: ["high street", "chain", "charity", "elevator"] },
+                    { q: "It is ______ to wear a helmet when riding a motorbike.", a: "obligatory", options: ["obligatory", "frustrating", "cooperative", "worth"] },
+                    { q: "This new smart speaker is a very cool electronic ______.", a: "gadget", options: ["gadget", "lawyer", "royalty", "apologies"] }
+                ]
+            },
+            {
+                id: 7,
+                title: "Unit 7: Business costs",
+                vietnameseTitle: "Chi phí kinh doanh",
+                words: [
+                    { en: "account", vi: "tài khoản kế toán, tài khoản khách hàng", type: "n" },
+                    { en: "asset", vi: "tài sản có giá trị", type: "n" },
+                    { en: "bankrupt", vi: "phá sản, vỡ nợ", type: "adj/v" },
+                    { en: "freeze", vi: "đóng băng tài khoản, phong tỏa", type: "v/n" },
+                    { en: "heating", vi: "hệ thống sưởi, việc sưởi ấm", type: "n" },
+                    { en: "homeless", vi: "vô gia cư", type: "adj" },
+                    { en: "overtime", vi: "giờ làm thêm, ngoài giờ", type: "n/adv" },
+                    { en: "reserve", vi: "quỹ dự trữ, đặt trước", type: "n/v" },
+                    { en: "cheque", vi: "séc, ngân phiếu", type: "n" },
+                    { en: "lend", vi: "cho vay, cho mượn", type: "v" },
+                    { en: "mug", vi: "cốc có quai lớn", type: "n" },
+                    { en: "souvenir", vi: "quà lưu niệm", type: "n" },
+                    { en: "standing order", vi: "lệnh thanh toán định kỳ tự động", type: "n" },
+                    { en: "bed and breakfast", vi: "dịch vụ lưu trú bình dân kèm bữa sáng", type: "n" },
+                    { en: "contingency plan", vi: "kế hoạch dự phòng", type: "n" },
+                    { en: "entertainment", vi: "chiêu đãi đối tác, giải trí", type: "n" },
+                    { en: "quote", vi: "bản báo giá, trích dẫn", type: "n/v" },
+                    { en: "specification", vi: "đặc tả kỹ thuật, thông số chi tiết", type: "n" },
+                    { en: "wind farm", vi: "trang trại phong điện (điện gió)", type: "n" },
+                    { en: "concession", vi: "sự nhượng bộ, giảm giá cho đối tượng đặc biệt", type: "n" },
+                    { en: "downtown", vi: "trung tâm thành phố", type: "n/adv" },
+                    { en: "limo", vi: "xe limousine sang trọng", type: "n" },
+                    { en: "pay rise", vi: "sự tăng lương", type: "n" },
+                    { en: "outstanding", vi: "còn nợ chưa thanh toán, nổi bật xuất sắc", type: "adj" },
+                    { en: "overdue", vi: "quá hạn thanh toán", type: "adj" },
+                    { en: "promise", vi: "lời hứa, hứa hẹn", type: "n/v" },
+                    { en: "reminder", vi: "thư nhắc nhở nợ/lịch trình", type: "n" },
+                    { en: "suspend", vi: "đình chỉ hoạt động, treo giò", type: "v" },
+                    { en: "threat", vi: "mối đe dọa, sự đe dọa", type: "n" },
+                    { en: "depreciation", vi: "khấu hao tài sản", type: "n" },
+                    { en: "emigrate", vi: "di cư ra nước ngoài", type: "v" },
+                    { en: "Kiwi", vi: "Người New Zealand, quả kiwi", type: "n" },
+                    { en: "solicitor", vi: "luật sư tư vấn pháp luật", type: "n" }
+                ],
+                sentences: [
+                    { q: "Our company went ______ because we couldn't pay our massive debts.", a: "bankrupt", options: ["bankrupt", "homeless", "outstanding", "overdue"] },
+                    { q: "An intellectual property can be a highly valuable ______ for a software firm.", a: "asset", options: ["asset", "reminder", "limo", "souvenir"] },
+                    { q: "Every project needs a ______ in case things go wrong.", a: "contingency plan", options: ["contingency plan", "standing order", "specification", "concession"] },
+                    { q: "This invoice is 30 days ______; please pay immediately.", a: "overdue", options: ["overdue", "outstanding", "homeless", "bankrupt"] },
+                    { q: "Please send a payment ______ to the client who forgot to pay.", a: "reminder", options: ["reminder", "cheque", "quote", "threat"] },
+                    { q: "We set up a ______ to automatically pay the electric bill every month.", a: "standing order", options: ["standing order", "contingency plan", "pay rise", "reserve"] },
+                    { q: "The building's annual ______ is very expensive during the winter.", a: "heating", options: ["heating", "depreciation", "solicitor", "concession"] },
+                    { q: "I asked the supplier for a ______ on the price of 500 laptops.", a: "quote", options: ["quote", "mug", "cheque", "limo"] },
+                    { q: "Machines lose value over time due to ______.", a: "depreciation", options: ["depreciation", "overtime", "entertainment", "specification"] },
+                    { q: "He received a 10% ______ after a stellar performance review.", a: "pay rise", options: ["pay rise", "concession", "standing order", "souvenir"] }
+                ]
+            },
+            {
+                id: 8,
+                title: "Unit 8: Global trade",
+                vietnameseTitle: "Thương mại toàn cầu",
+                words: [
+                    { en: "BRIC", vi: "khối các nước mới nổi lớn (Brazil, Nga, Ấn Độ, Trung Quốc)", type: "n" },
+                    { en: "diversity", vi: "sự đa dạng", type: "n" },
+                    { en: "emerging market", vi: "thị trường mới nổi", type: "n" },
+                    { en: "GDP (Gross Domestic Product)", vi: "Tổng sản phẩm quốc nội", type: "n" },
+                    { en: "outlet", vi: "đại lý bán lẻ tiêu thụ, lối thoát", type: "n" },
+                    { en: "penetrate", vi: "thâm nhập thị trường", type: "v" },
+                    { en: "player", vi: "đối thủ, công ty lớn trên thị trường", type: "n" },
+                    { en: "reward", vi: "phần thưởng, đền đáp", type: "n/v" },
+                    { en: "completion", vi: "sự hoàn thành", type: "n" },
+                    { en: "profile", vi: "hồ sơ thông tin", type: "n" },
+                    { en: "recruit", vi: "tuyển dụng nhân viên mới", type: "v/n" },
+                    { en: "status", vi: "trạng thái, địa vị", type: "n" },
+                    { en: "frogs' legs", vi: "món đùi ếch", type: "n" },
+                    { en: "people skills", vi: "kỹ năng giao tiếp ứng xử với con người", type: "n" },
+                    { en: "premises", vi: "cơ sở kinh doanh (nhà xưởng, văn phòng)", type: "n" },
+                    { en: "snail", vi: "con ốc sên", type: "n" },
+                    { en: "attitude", vi: "thái độ", type: "n" },
+                    { en: "Gantt chart", vi: "biểu đồ Gantt quản lý tiến độ", type: "n" },
+                    { en: "update", vi: "cập nhật", type: "v/n" },
+                    { en: "backup", vi: "sao lưu dự phòng", type: "v/n" },
+                    { en: "hardwood", vi: "gỗ cứng", type: "n" },
+                    { en: "sustainable", vi: "bền vững (thân thiện môi trường)", type: "adj" },
+                    { en: "unsuitable", vi: "không phù hợp, không thích hợp", type: "adj" },
+                    { en: "Mountie", vi: "Cảnh sát Hoàng gia Canada", type: "n" },
+                    { en: "preteen-", vi: "trước tuổi dậy thì (9-12 tuổi)", type: "adj/n" },
+                    { en: "ROI (Return on Investment)", vi: "tỷ suất hoàn vốn đầu tư", type: "n" },
+                    { en: "tween", vi: "trẻ em tuổi chuyển tiếp (10-12 tuổi)", type: "n" }
+                ],
+                sentences: [
+                    { q: "Vietnam is considered a rapidly growing ______ in Southeast Asia.", a: "emerging market", options: ["emerging market", "BRIC", "Gantt chart", "Mountie"] },
+                    { q: "Our firm is trying to ______ the European market with our new products.", a: "penetrate", options: ["penetrate", "recruit", "update", "reward"] },
+                    { q: "The company's annual ______ grew by 5% last year.", a: "GDP", options: ["GDP", "ROI", "status", "completion"] },
+                    { q: "A positive ______ is crucial for handling customer complaints effectively.", a: "attitude", options: ["attitude", "premises", "diversity", "backup"] },
+                    { q: "Using eco-friendly packaging is part of our commitment to ______ development.", a: "sustainable", options: ["sustainable", "unsuitable", "preteen-", "hardwood"] },
+                    { q: "Our manager used a ______ to track the timeline of the product development.", a: "Gantt chart", options: ["Gantt chart", "profile", "outlet", "status"] },
+                    { q: "The company has to find a new office ______ as the rent of the current building doubled.", a: "premises", options: ["premises", "tween", "hardwood", "frogs' legs"] },
+                    { q: "In sales, having good ______ is often more important than technical skills.", a: "people skills", options: ["people skills", "status", "completion", "diversity"] },
+                    { q: "Before updating the database, make sure you create a complete ______.", a: "backup", options: ["backup", "snail", "reward", "preteen-"] },
+                    { q: "We want to check the ______ on this marketing campaign to see if it was profitable.", a: "ROI", options: ["ROI", "GDP", "BRIC", "player"] }
+                ]
+            }
+        ];
+
+        const { useState, useEffect, useRef } = React;
+
+        function App() {
+            // STATE QUẢN LÝ SECTION CHỦ ĐẠO
+            const [activeUnitIdx, setActiveUnitIdx] = useState(0);
+            const [activeTab, setActiveTab] = useState("flashcards"); // "flashcards" | "matching" | "quiz"
+            const [sidebarOpen, setSidebarOpen] = useState(false);
+
+            const activeUnit = VOCABULARY_DATA[activeUnitIdx];
+
+            return (
+                <div className="flex flex-col md:flex-row min-h-screen">
+                    {/* SIDEBAR CHỌN UNIT */}
+                    <aside className={`fixed inset-y-0 left-0 z-50 w-80 bg-slate-900 text-slate-100 transform transition-transform duration-300 md:relative md:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} flex flex-col shadow-2xl md:shadow-none`}>
+                        {/* Header Sidebar */}
+                        <div className="p-6 border-b border-slate-800 flex justify-between items-center">
+                            <div>
+                                <h1 className="text-xl font-bold bg-gradient-to-r from-violet-400 to-indigo-300 bg-clip-text text-transparent">VocabMaster</h1>
+                                <p className="text-xs text-slate-400 mt-1">Hệ thống ôn tập 9 Units từ vựng</p>
+                            </div>
+                            <button onClick={() => setSidebarOpen(false)} className="md:hidden text-slate-400 hover:text-white p-2">
+                                <i className="fa-solid fa-xmark text-xl"></i>
+                            </button>
+                        </div>
+
+                        {/* Danh sách 9 Units */}
+                        <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                            {VOCABULARY_DATA.map((unit, idx) => (
+                                <button
+                                    key={unit.id}
+                                    onClick={() => {
+                                        setActiveUnitIdx(idx);
+                                        setSidebarOpen(false);
+                                        // Reset tab state when changing Unit to keep clean
+                                    }}
+                                    className={`w-full text-left p-3.5 rounded-xl transition-all duration-200 flex items-start gap-3 group relative ${
+                                        activeUnitIdx === idx 
+                                        ? "bg-brand-600 text-white font-semibold shadow-md shadow-brand-900/30" 
+                                        : "hover:bg-slate-800/60 text-slate-300 hover:text-white"
+                                    }`}
+                                >
+                                    <div className={`mt-0.5 w-6 h-6 flex items-center justify-center rounded-lg text-xs font-bold ${activeUnitIdx === idx ? "bg-white/20 text-white" : "bg-slate-800 text-slate-400 group-hover:bg-slate-700"}`}>
+                                        {idx + 1}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="text-sm truncate font-medium">{unit.title}</div>
+                                        <div className={`text-xs truncate ${activeUnitIdx === idx ? "text-brand-100" : "text-slate-500"}`}>{unit.vietnameseTitle}</div>
+                                    </div>
+                                    {activeUnitIdx === idx && (
+                                        <div className="absolute right-3 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white animate-pulse"></div>
+                                    )}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Footer Sidebar */}
+                        <div className="p-4 border-t border-slate-800 text-center text-xs text-slate-500">
+                            Hỗ trợ phát âm chuẩn & tương tác tức thì
+                        </div>
+                    </aside>
+
+                    {/* OVERLAY KHI MỞ SIDEBAR TRÊN MOBILE */}
+                    {sidebarOpen && (
+                        <div onClick={() => setSidebarOpen(false)} className="fixed inset-0 bg-black/50 z-40 md:hidden backdrop-blur-sm"></div>
+                    )}
+
+                    {/* KHU VỰC NỘI DUNG CHÍNH */}
+                    <main className="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-slate-950">
+                        {/* TOPBAR MOBILE & STATS */}
+                        <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-4 flex justify-between items-center sticky top-0 z-30 shadow-sm">
+                            <div className="flex items-center gap-3">
+                                <button onClick={() => setSidebarOpen(true)} className="md:hidden bg-slate-100 dark:bg-slate-800 p-2 rounded-lg text-slate-700 dark:text-slate-200">
+                                    <i className="fa-solid fa-bars"></i>
+                                </button>
+                                <div>
+                                    <div className="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-wider">Unit {activeUnitIdx + 1}</div>
+                                    <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                                        {activeUnit.title}
+                                        <span className="text-sm font-normal text-slate-500 dark:text-slate-400 hidden sm:inline">({activeUnit.vietnameseTitle})</span>
+                                    </h2>
+                                </div>
+                            </div>
+
+                            {/* Số lượng từ vựng trong Unit */}
+                            <div className="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
+                                <i className="fa-solid fa-book-open text-brand-500"></i>
+                                {activeUnit.words.length} từ vựng
+                            </div>
+                        </header>
+
+                        {/* TABS NAVIGATION */}
+                        <div className="p-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex justify-center">
+                            <div className="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl w-full max-w-lg shadow-inner">
+                                <button
+                                    onClick={() => setActiveTab("flashcards")}
+                                    className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                                        activeTab === "flashcards"
+                                        ? "bg-white dark:bg-slate-700 text-brand-700 dark:text-white shadow-md scale-[1.02]"
+                                        : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
+                                    }`}
+                                >
+                                    <i className="fa-solid fa-clone text-base"></i>
+                                    <span className="hidden sm:inline">Phần 1:</span> Flashcards
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab("matching")}
+                                    className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                                        activeTab === "matching"
+                                        ? "bg-white dark:bg-slate-700 text-brand-700 dark:text-white shadow-md scale-[1.02]"
+                                        : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
+                                    }`}
+                                >
+                                    <i className="fa-solid fa-circle-nodes text-base"></i>
+                                    <span className="hidden sm:inline">Phần 2:</span> Nối Từ
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab("quiz")}
+                                    className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                                        activeTab === "quiz"
+                                        ? "bg-white dark:bg-slate-700 text-brand-700 dark:text-white shadow-md scale-[1.02]"
+                                        : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
+                                    }`}
+                                >
+                                    <i className="fa-solid fa-circle-question text-base"></i>
+                                    <span className="hidden sm:inline">Phần 3:</span> Trắc Nghiệm
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* PHÂN VÙNG NỘI DUNG TỪNG TAB */}
+                        <div className="flex-1 p-4 sm:p-6 max-w-6xl w-full mx-auto flex flex-col justify-start">
+                            {activeTab === "flashcards" && (
+                                <FlashcardSection words={activeUnit.words} />
+                            )}
+                            {activeTab === "matching" && (
+                                <MatchingSection words={activeUnit.words} unitId={activeUnit.id} />
+                            )}
+                            {activeTab === "quiz" && (
+                                <QuizSection words={activeUnit.words} presetSentences={activeUnit.sentences} unitId={activeUnit.id} />
+                            )}
+                        </div>
+                    </main>
+                </div>
+            );
+        }
+
+        // PHẦN 1: FLASHCARDS ÔN TẬP TỪ VỰNG
+        function FlashcardSection({ words }) {
+            const [currentIndex, setCurrentIndex] = useState(0);
+            const [isFlipped, setIsFlipped] = useState(false);
+
+            // Đảm bảo Reset index về 0 khi chuyển đổi Unit mới
+            useEffect(() => {
+                setCurrentIndex(0);
+                setIsFlipped(false);
+            }, [words]);
+
+            const currentWord = words[currentIndex] || { en: "", vi: "", type: "" };
+
+            const handleNext = () => {
+                setIsFlipped(false);
+                setTimeout(() => {
+                    setCurrentIndex((prev) => (prev + 1) % words.length);
+                }, 150);
+            };
+
+            const handlePrev = () => {
+                setIsFlipped(false);
+                setTimeout(() => {
+                    setCurrentIndex((prev) => (prev - 1 + words.length) % words.length);
+                }, 150);
+            };
+
+            const handleSpeak = (e) => {
+                e.stopPropagation(); // Không kích hoạt lật thẻ khi ấn nút loa
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(currentWord.en);
+                    utterance.lang = 'en-US';
+                    utterance.rate = 0.9;
+                    window.speechSynthesis.speak(utterance);
+                }
+            };
+
+            const handleKeyDown = (e) => {
+                if (e.key === "ArrowRight") handleNext();
+                if (e.key === "ArrowLeft") handlePrev();
+                if (e.key === " " || e.key === "Enter") setIsFlipped(!isFlipped);
+            };
+
+            // Gán phím tắt mũi tên trái/phải để chuyển thẻ
+            useEffect(() => {
+                window.addEventListener("keydown", handleKeyDown);
+                return () => window.removeEventListener("keydown", handleKeyDown);
+            }, [currentIndex, isFlipped, words]);
+
+            return (
+                <div className="w-full max-w-2xl mx-auto flex flex-col items-center py-6">
+                    {/* Hướng dẫn sử dụng */}
+                    <div className="text-center mb-6">
+                        <span className="bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-300 text-xs px-3 py-1.5 rounded-full font-semibold">
+                            Mẹo: Click vào thẻ để lật hoặc dùng Phím Mũi Tên Trái/Phải, Phím Cách
+                        </span>
+                    </div>
+
+                    {/* Khung chứa Flashcard lật 3D */}
+                    <div 
+                        onClick={() => setIsFlipped(!isFlipped)}
+                        className="w-full h-80 sm:h-96 perspective-1000 cursor-pointer group"
+                    >
+                        <div className={`w-full h-full relative transform-style-3d transition-transform duration-500 ease-out ${isFlipped ? "rotate-y-180" : ""}`}>
+                            
+                            {/* MẶT TRƯỚC: TIẾNG ANH */}
+                            <div className="absolute inset-0 bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-xl border border-slate-100 dark:border-slate-700 flex flex-col justify-between backface-hidden">
+                                <div className="flex justify-between items-center w-full">
+                                    <span className="text-sm font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase">MẶT TRƯỚC</span>
+                                    {currentWord.type && (
+                                        <span className="bg-brand-50 dark:bg-brand-900/40 text-brand-600 dark:text-brand-300 text-xs font-bold px-2.5 py-1 rounded-md lowercase">
+                                            ({currentWord.type})
+                                        </span>
+                                    )}
+                                </div>
+
+                                <div className="text-center my-auto flex flex-col items-center gap-4">
+                                    <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-800 dark:text-white tracking-tight word-break">
+                                        {currentWord.en}
+                                    </h3>
+                                    
+                                    {/* Nút phát âm loa */}
+                                    <button 
+                                        onClick={handleSpeak}
+                                        className="w-12 h-12 rounded-full bg-brand-50 hover:bg-brand-100 dark:bg-brand-900/30 dark:hover:bg-brand-900/60 text-brand-600 dark:text-brand-400 flex items-center justify-center transition-all duration-200 active:scale-90"
+                                        title="Phát âm từ vựng"
+                                    >
+                                        <i className="fa-solid fa-volume-high text-lg"></i>
+                                    </button>
+                                </div>
+
+                                <div className="text-center text-xs text-slate-400 dark:text-slate-500">
+                                    Nhấn để xem nghĩa Tiếng Việt
+                                </div>
+                            </div>
+
+                            {/* MẶT SAU: TIẾNG VIỆT */}
+                            <div className="absolute inset-0 bg-gradient-to-tr from-brand-500 to-indigo-600 text-white rounded-3xl p-8 shadow-xl flex flex-col justify-between backface-hidden rotate-y-180">
+                                <div className="flex justify-between items-center w-full">
+                                    <span className="text-sm font-bold tracking-widest text-brand-200 uppercase">MẶT SAU</span>
+                                    {currentWord.type && (
+                                        <span className="bg-white/20 text-white text-xs font-bold px-2.5 py-1 rounded-md lowercase">
+                                            ({currentWord.type})
+                                        </span>
+                                    )}
+                                </div>
+
+                                <div className="text-center my-auto px-4">
+                                    <h4 className="text-2xl sm:text-3xl font-bold leading-relaxed">
+                                        {currentWord.vi}
+                                    </h4>
+                                </div>
+
+                                <div className="text-center text-xs text-brand-200">
+                                    Nhấn để xem từ Tiếng Anh
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {/* BỘ ĐIỀU KHIỂN CHUYỂN THẺ */}
+                    <div className="flex items-center gap-6 mt-8 w-full justify-center">
+                        <button 
+                            onClick={handlePrev}
+                            className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-brand-500 dark:hover:border-brand-400 text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 flex items-center justify-center shadow-sm transition-all duration-200 hover:-translate-x-1"
+                        >
+                            <i className="fa-solid fa-arrow-left text-lg"></i>
+                        </button>
+
+                        <div className="text-sm font-bold text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/80 px-4 py-2 rounded-2xl">
+                            {currentIndex + 1} / {words.length} từ vựng
+                        </div>
+
+                        <button 
+                            onClick={handleNext}
+                            className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-brand-500 dark:hover:border-brand-400 text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 flex items-center justify-center shadow-sm transition-all duration-200 hover:translate-x-1"
+                        >
+                            <i className="fa-solid fa-arrow-right text-lg"></i>
+                        </button>
+                    </div>
+
+                    {/* THANH TIẾN TRÌNH PROGRESS BAR */}
+                    <div className="w-full max-w-sm mt-6 bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                        <div 
+                            className="h-full bg-brand-500 transition-all duration-300"
+                            style={{ width: `${((currentIndex + 1) / words.length) * 100}%` }}
+                        ></div>
+                    </div>
+                </div>
+            );
+        }
+
+        // PHẦN 2: LUYỆN TẬP NỐI TỪ TIẾNG ANH VỚI NGHĨA TIẾNG VIỆT CHÍNH XÁC (10 TỪ BẤT KỲ)
+        function MatchingSection({ words, unitId }) {
+            const [gameWords, setGameWords] = useState([]);
+            const [enColumns, setEnColumns] = useState([]);
+            const [viColumns, setViColumns] = useState([]);
+            
+            const [selectedEn, setSelectedEn] = useState(null); // Lưu trữ Object {id, en} đang chọn
+            const [selectedVi, setSelectedVi] = useState(null); // Lưu trữ Object {id, vi} đang chọn
+            const [matches, setMatches] = useState({}); // Lưu trữ cặp đã đúng: {wordId: true}
+            const [incorrectPair, setIncorrectPair] = useState(null); // {enId, viId} lỗi để nháy màu đỏ
+
+            // Khởi tạo trò chơi mới
+            const initGame = () => {
+                // Lấy 10 từ vựng ngẫu nhiên từ danh sách từ vựng của unit
+                const shuffled = [...words].sort(() => 0.5 - Math.random());
+                const selectedTen = shuffled.slice(0, Math.min(10, words.length));
+                
+                // Gán mã định danh duy nhất cho từng từ để kiểm tra nối đúng/sai
+                const formattedWords = selectedTen.map((w, index) => ({
+                    id: `word-${index}-${Date.now()}`,
+                    en: w.en,
+                    vi: w.vi
+                }));
+
+                setGameWords(formattedWords);
+                
+                // Trộn riêng cột Tiếng Anh và Tiếng Việt độc lập
+                const shuffledEn = [...formattedWords].sort(() => 0.5 - Math.random());
+                const shuffledVi = [...formattedWords].sort(() => 0.5 - Math.random());
+
+                setEnColumns(shuffledEn);
+                setViColumns(shuffledVi);
+
+                setSelectedEn(null);
+                setSelectedVi(null);
+                setMatches({});
+                setIncorrectPair(null);
+            };
+
+            // Khởi chạy khi vào unit hoặc ấn nút reset
+            useEffect(() => {
+                initGame();
+            }, [words, unitId]);
+
+            // Xử lý khi chọn từ tiếng Anh
+            const handleSelectEn = (item) => {
+                if (matches[item.id]) return; // Từ này đã khớp thành công
+                setSelectedEn(item);
+                setIncorrectPair(null);
+
+                // Nếu đã chọn một từ Tiếng Việt trước đó, tiến hành so khớp ngay
+                if (selectedVi) {
+                    checkMatch(item, selectedVi);
+                }
+            };
+
+            // Xử lý khi chọn từ tiếng Việt
+            const handleSelectVi = (item) => {
+                if (matches[item.id]) return; // Nghĩa này đã khớp thành công
+                setSelectedVi(item);
+                setIncorrectPair(null);
+
+                // Nếu đã chọn một từ Tiếng Anh trước đó, tiến hành so khớp ngay
+                if (selectedEn) {
+                    checkMatch(selectedEn, item);
+                }
+            };
+
+            // Hàm kiểm tra khớp đúng hay sai
+            const checkMatch = (enItem, viItem) => {
+                if (enItem.id === viItem.id) {
+                    // NỐI ĐÚNG
+                    setMatches(prev => ({ ...prev, [enItem.id]: true }));
+                    setSelectedEn(null);
+                    setSelectedVi(null);
+                } else {
+                    // NỐI SAI - Nháy đỏ cảnh báo
+                    setIncorrectPair({ enId: enItem.id, viId: viItem.id });
+                    setSelectedEn(null);
+                    setSelectedVi(null);
+
+                    // Xóa trạng thái nháy đỏ sau 800ms
+                    setTimeout(() => {
+                        setIncorrectPair(null);
+                    }, 800);
+                }
+            };
+
+            const isGameFinished = gameWords.length > 0 && Object.keys(matches).length === gameWords.length;
+
+            return (
+                <div className="w-full max-w-4xl mx-auto py-4">
+                    {/* Header thông số */}
+                    <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                        <div className="text-center sm:text-left">
+                            <h3 className="font-bold text-slate-800 dark:text-slate-100">Trò chơi ghép cặp từ vựng</h3>
+                            <p className="text-xs text-slate-500 mt-1">Ghép từ vựng Tiếng Anh (trái) với nghĩa Tiếng Việt tương ứng (phải)</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <span className="bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-400 font-bold px-4 py-2 rounded-xl text-sm">
+                                Tiến độ: {Object.keys(matches).length} / {gameWords.length}
+                            </span>
+                            <button 
+                                onClick={initGame}
+                                className="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-xl text-sm font-semibold transition duration-200 flex items-center gap-1.5"
+                            >
+                                <i className="fa-solid fa-arrows-rotate"></i> Trộn Lại
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* CỘT GHÉP CẶP */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
+                        {/* Cột Tiếng Anh */}
+                        <div className="flex flex-col gap-3">
+                            <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1 text-center">TIẾNG ANH</h4>
+                            {enColumns.map((item) => {
+                                const isMatched = matches[item.id];
+                                const isSelected = selectedEn && selectedEn.id === item.id;
+                                const isIncorrect = incorrectPair && incorrectPair.enId === item.id;
+
+                                let cardClass = "bg-white dark:bg-slate-800 text-slate-800 dark:text-white border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 hover:border-brand-300 dark:hover:border-brand-500";
+                                if (isSelected) cardClass = "bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-300 border-brand-500 scale-[1.02] ring-2 ring-brand-500/20";
+                                if (isMatched) cardClass = "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-500/50 opacity-60 cursor-not-allowed";
+                                if (isIncorrect) cardClass = "bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-400 border-rose-500 animate-shake ring-2 ring-rose-500/20";
+
+                                return (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => handleSelectEn(item)}
+                                        disabled={isMatched}
+                                        className={`p-4 rounded-xl border text-sm font-bold text-center transition-all duration-200 shadow-sm flex justify-between items-center ${cardClass}`}
+                                    >
+                                        <span className="truncate">{item.en}</span>
+                                        {isMatched && <i className="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400"></i>}
+                                        {isIncorrect && <i className="fa-solid fa-circle-xmark text-rose-600 dark:text-rose-400"></i>}
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* Cột Tiếng Việt */}
+                        <div className="flex flex-col gap-3">
+                            <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-1 text-center">TIẾNG VIỆT</h4>
+                            {viColumns.map((item) => {
+                                const isMatched = matches[item.id];
+                                const isSelected = selectedVi && selectedVi.id === item.id;
+                                const isIncorrect = incorrectPair && incorrectPair.viId === item.id;
+
+                                let cardClass = "bg-white dark:bg-slate-800 text-slate-800 dark:text-white border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 hover:border-brand-300 dark:hover:border-brand-500";
+                                if (isSelected) cardClass = "bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-300 border-brand-500 scale-[1.02] ring-2 ring-brand-500/20";
+                                if (isMatched) cardClass = "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-500/50 opacity-60 cursor-not-allowed";
+                                if (isIncorrect) cardClass = "bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-400 border-rose-500 animate-shake ring-2 ring-rose-500/20";
+
+                                return (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => handleSelectVi(item)}
+                                        disabled={isMatched}
+                                        className={`p-4 rounded-xl border text-sm font-semibold text-center transition-all duration-200 shadow-sm flex justify-between items-center ${cardClass}`}
+                                    >
+                                        <span className="truncate text-left flex-1 mr-2">{item.vi}</span>
+                                        {isMatched && <i className="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400 flex-shrink-0"></i>}
+                                        {isIncorrect && <i className="fa-solid fa-circle-xmark text-rose-600 dark:text-rose-400 flex-shrink-0"></i>}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* MÀN HÌNH HOÀN THÀNH TRÒ CHƠI */}
+                    {isGameFinished && (
+                        <div className="mt-8 p-8 bg-gradient-to-tr from-emerald-500 to-teal-600 text-white text-center rounded-3xl shadow-xl animate-bounce">
+                            <i className="fa-solid fa-trophy text-5xl mb-4"></i>
+                            <h3 className="text-2xl font-black">Xuất Sắc! Hoàn Thành Ghép Cặp</h3>
+                            <p className="text-emerald-100 text-sm mt-1 max-w-md mx-auto">Bạn đã nối chính xác toàn bộ 10 từ vựng. Hãy nhấn nút Làm lại dưới đây để xáo trộn bộ từ mới học sâu nhớ lâu!</p>
+                            <button 
+                                onClick={initGame}
+                                className="mt-6 bg-white text-emerald-700 hover:bg-emerald-50 font-extrabold px-6 py-3 rounded-2xl shadow-md transition duration-200 transform hover:scale-105"
+                            >
+                                <i className="fa-solid fa-repeat"></i> Làm Lại Với Bộ Từ Mới
+                            </button>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // PHẦN 3: BÀI TẬP TRẮC NGHIỆM ĐIỀN TỪ/NGHĨA (10 CÂU HỎI 4 LỰA CHỌN)
+        function QuizSection({ words, presetSentences, unitId }) {
+            const [questions, setQuestions] = useState([]);
+            const [currentAnswers, setCurrentAnswers] = useState({}); // Lưu trữ câu trả lời của học sinh: {qIdx: selectedOption}
+            const [quizCompleted, setQuizCompleted] = useState(false);
+
+            // Hàm sinh câu hỏi trắc nghiệm thông minh
+            const generateQuiz = () => {
+                const totalQuestionsCount = 10;
+                let generated = [];
+
+                // Bước 1: Trộn các câu hỏi ngữ cảnh mẫu đã có sẵn cho unit này
+                const availablePresets = presetSentences ? [...presetSentences] : [];
+                const shuffledPresets = availablePresets.sort(() => 0.5 - Math.random());
+
+                // Sử dụng tối đa các câu hỏi mẫu có sẵn (tối đa là 5 câu để đảm bảo phân bổ đa dạng, còn lại sinh câu hỏi từ vựng)
+                const presetSelectionCount = Math.min(6, shuffledPresets.length);
+                for (let i = 0; i < presetSelectionCount; i++) {
+                    generated.push({
+                        type: "sentence",
+                        text: shuffledPresets[i].q,
+                        correctAnswer: shuffledPresets[i].a,
+                        options: [...shuffledPresets[i].options].sort(() => 0.5 - Math.random())
+                    });
+                }
+
+                // Bước 2: Sinh thêm câu hỏi ghép nghĩa từ vựng cho đến khi đủ 10 câu
+                const remainingNeeded = totalQuestionsCount - generated.length;
+                // Trộn danh sách từ vựng hiện tại để lấy từ làm câu hỏi
+                const shuffledWords = [...words].sort(() => 0.5 - Math.random());
+                
+                // Lọc bỏ những từ đã được dùng làm đáp án đúng trong câu hỏi mẫu để tránh lặp trùng
+                const usedAnswers = generated.map(q => q.correctAnswer);
+                const unusedWords = shuffledWords.filter(w => !usedAnswers.includes(w.en));
+
+                const wordsForQuiz = unusedWords.slice(0, remainingNeeded);
+
+                wordsForQuiz.forEach((word) => {
+                    // Tạo câu hỏi định nghĩa ngẫu nhiên theo 2 dạng: 
+                    // Dạng A: Từ tiếng Anh -> Chọn nghĩa tiếng Việt
+                    // Dạng B: Định nghĩa tiếng Việt -> Chọn từ tiếng Anh tương ứng
+                    const isEnToViType = Math.random() > 0.5;
+
+                    if (isEnToViType) {
+                        // Tìm 3 đáp án sai (distractors) từ danh sách từ vựng của unit đó
+                        const distractors = words
+                            .filter(w => w.en !== word.en)
+                            .sort(() => 0.5 - Math.random())
+                            .slice(0, 3)
+                            .map(w => w.vi);
+
+                        const options = [word.vi, ...distractors].sort(() => 0.5 - Math.random());
+
+                        generated.push({
+                            type: "define-vi",
+                            text: `Từ vựng "${word.en}" trong tiếng Việt có nghĩa là gì?`,
+                            correctAnswer: word.vi,
+                            options: options
+                        });
+                    } else {
+                        const distractors = words
+                            .filter(w => w.en !== word.en)
+                            .sort(() => 0.5 - Math.random())
+                            .slice(0, 3)
+                            .map(w => w.en);
+
+                        const options = [word.en, ...distractors].sort(() => 0.5 - Math.random());
+
+                        generated.push({
+                            type: "define-en",
+                            text: `Từ tiếng Anh nào mang nghĩa: "${word.vi}"?`,
+                            correctAnswer: word.en,
+                            options: options
+                        });
+                    }
+                });
+
+                // Xáo trộn lại toàn bộ 10 câu hỏi để lẫn lộn giữa trắc nghiệm điền câu và giải nghĩa
+                setQuestions(generated.sort(() => 0.5 - Math.random()).slice(0, 10));
+                setCurrentAnswers({});
+                setQuizCompleted(false);
+            };
+
+            // Khởi chạy khi khởi tạo Unit hoặc nhấn nút làm lại
+            useEffect(() => {
+                generateQuiz();
+            }, [words, presetSentences, unitId]);
+
+            // Học sinh chọn đáp án
+            const handleSelectOption = (qIdx, option) => {
+                // Nếu đã chọn rồi thì không cho phép chọn lại để đảm bảo tính minh bạch kết quả tức thì
+                if (currentAnswers[qIdx] !== undefined) return;
+
+                setCurrentAnswers(prev => {
+                    const next = { ...prev, [qIdx]: option };
+                    
+                    // Nếu đã hoàn thành tất cả 10 câu, kích hoạt màn hình tổng kết sau 1 giây
+                    if (Object.keys(next).length === 10) {
+                        setTimeout(() => {
+                            setQuizCompleted(true);
+                        }, 1000);
+                    }
+                    return next;
+                });
+            };
+
+            const calculateScore = () => {
+                let score = 0;
+                questions.forEach((q, idx) => {
+                    if (currentAnswers[idx] === q.correctAnswer) {
+                        score++;
+                    }
+                });
+                return score;
+            };
+
+            return (
+                <div className="w-full max-w-3xl mx-auto py-4">
+                    {/* Header chỉ số */}
+                    <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                        <div className="text-center sm:text-left">
+                            <h3 className="font-bold text-slate-800 dark:text-slate-100">Luyện tập trắc nghiệm thông minh</h3>
+                            <p className="text-xs text-slate-500 mt-1">Đánh giá độ hiểu sâu của bạn qua 10 câu hỏi đa dạng kiến thức.</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <span className="bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-400 font-bold px-4 py-2 rounded-xl text-sm">
+                                Đã trả lời: {Object.keys(currentAnswers).length} / 10
+                            </span>
+                            <button 
+                                onClick={generateQuiz}
+                                className="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-xl text-sm font-semibold transition duration-200 flex items-center gap-1.5"
+                            >
+                                <i className="fa-solid fa-arrows-rotate"></i> Tạo Đề Mới
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* DANH SÁCH 10 CÂU HỎI */}
+                    <div className="space-y-6">
+                        {questions.map((q, idx) => {
+                            const userAnswer = currentAnswers[idx];
+                            const isAnswered = userAnswer !== undefined;
+
+                            return (
+                                <div 
+                                    key={idx} 
+                                    className={`p-6 rounded-2xl bg-white dark:bg-slate-900 border transition-all duration-300 shadow-sm ${
+                                        isAnswered 
+                                        ? (userAnswer === q.correctAnswer ? "border-emerald-200 dark:border-emerald-800/40" : "border-rose-200 dark:border-rose-800/40")
+                                        : "border-slate-100 dark:border-slate-800"
+                                    }`}
+                                >
+                                    {/* Tiêu đề câu hỏi */}
+                                    <div className="flex items-start gap-3 mb-4">
+                                        <span className="w-6 h-6 flex items-center justify-center rounded-lg bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-400 text-xs font-bold mt-0.5">
+                                            {idx + 1}
+                                        </span>
+                                        <h4 className="text-base font-semibold text-slate-800 dark:text-slate-100">
+                                            {q.text}
+                                        </h4>
+                                    </div>
+
+                                    {/* Mạng lưới 4 đáp án */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        {q.options.map((option, oIdx) => {
+                                            const isSelected = userAnswer === option;
+                                            const isCorrect = option === q.correctAnswer;
+                                            
+                                            let btnClass = "border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:border-brand-400 dark:hover:border-brand-500";
+                                            let icon = null;
+
+                                            if (isAnswered) {
+                                                if (isCorrect) {
+                                                    // Đáp án đúng luôn sáng xanh lá
+                                                    btnClass = "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border-emerald-500 font-bold";
+                                                    icon = <i className="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400 text-base"></i>;
+                                                } else if (isSelected) {
+                                                    // Nếu học sinh chọn sai, đáp án sai sáng đỏ
+                                                    btnClass = "bg-rose-50 dark:bg-rose-950/40 text-rose-800 dark:text-rose-300 border-rose-500 font-bold";
+                                                    icon = <i className="fa-solid fa-circle-xmark text-rose-600 dark:text-rose-400 text-base"></i>;
+                                                } else {
+                                                    btnClass = "opacity-50 border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed";
+                                                }
+                                            }
+
+                                            return (
+                                                <button
+                                                    key={oIdx}
+                                                    onClick={() => handleSelectOption(idx, option)}
+                                                    disabled={isAnswered}
+                                                    className={`p-3 px-4 rounded-xl border text-sm text-left transition-all duration-200 flex justify-between items-center ${btnClass}`}
+                                                >
+                                                    <span>{option}</span>
+                                                    {icon}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* MÀN HÌNH TỔNG KẾT ĐIỂM SỐ */}
+                    {quizCompleted && (
+                        <div className="mt-8 p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center rounded-3xl shadow-xl max-w-xl mx-auto">
+                            <i className="fa-solid fa-star text-amber-400 text-5xl mb-4 animate-spin-slow"></i>
+                            <h3 className="text-2xl font-black text-slate-800 dark:text-white">Hoàn Thành Bài Kiểm Tra!</h3>
+                            <div className="text-4xl font-black text-brand-600 dark:text-brand-400 my-4">
+                                {calculateScore()} / 10 câu đúng
+                            </div>
+                            
+                            {/* Phân loại khuyến khích học sinh */}
+                            <p className="text-slate-600 dark:text-slate-400 text-sm max-w-md mx-auto">
+                                {calculateScore() === 10 
+                                    ? "Thật phi thường! Bạn đã đạt điểm số tuyệt đối. Toàn bộ từ vựng đã được bạn ghi nhớ xuất sắc." 
+                                    : calculateScore() >= 8 
+                                    ? "Tuyệt vời! Bạn nắm vững hầu hết các từ vựng cốt lõi. Hãy kiên trì duy trì phong độ nhé."
+                                    : "Khá tốt! Đừng nản chí, hãy nhấn nút làm lại để xáo trộn câu hỏi và cải thiện điểm số tốt hơn nữa."}
+                            </p>
+
+                            <button 
+                                onClick={generateQuiz}
+                                className="mt-6 bg-brand-600 hover:bg-brand-700 text-white font-extrabold px-6 py-3 rounded-2xl shadow-md shadow-brand-500/20 transition duration-200 transform hover:scale-105"
+                            >
+                                <i className="fa-solid fa-repeat"></i> Làm Đề Trắc Nghiệm Mới
+                            </button>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
